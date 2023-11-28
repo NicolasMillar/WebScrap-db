@@ -10,13 +10,18 @@ soup = BeautifulSoup(content, 'lxml')
 box = soup.find('div', class_='products row products-grid')
 
 if box:
-   
-    productos = box.find_all('div', class_='product-description')
-    for producto in productos:
-        nombre_producto = producto.find('h2', class_='h3 product-title')
-        if nombre_producto:
-            print(nombre_producto.prettify())
-        else:
-            print("Nombre del producto no encontrado")
+    products = box.find_all('div', class_='product-description')
+    products_list = []
+    for product in products:
+        current_product = product.find('h2', class_='h3 product-title')
+        link_product = current_product.find('a')['href']
+        name_product = current_product.find('a').text.strip()
+        currentProduct = {
+            'name' : name_product,
+            'link' : link_product
+        }
+
+        products_list.append(currentProduct)
+    print(products_list)
 else:
     print("No se encontró el div principal con la clase 'products row products-grid'")
