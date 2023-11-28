@@ -9,4 +9,14 @@ content = result.text
 soup = BeautifulSoup(content, 'lxml')
 box = soup.find('div', class_='products row products-grid')
 
-print(box.prettify())
+if box:
+   
+    productos = box.find_all('div', class_='product-description')
+    for producto in productos:
+        nombre_producto = producto.find('h2', class_='h3 product-title')
+        if nombre_producto:
+            print(nombre_producto.prettify())
+        else:
+            print("Nombre del producto no encontrado")
+else:
+    print("No se encontró el div principal con la clase 'products row products-grid'")
