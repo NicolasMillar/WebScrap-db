@@ -7,4 +7,6 @@ result = requests.get(website, headers=headers)
 content = result.text
 
 soup = BeautifulSoup(content, 'lxml')
-print(soup.prettify())
+box = soup.find('div', class_='products row products-grid')
+
+print(box.prettify())
