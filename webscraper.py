@@ -1,13 +1,16 @@
 from bs4 import BeautifulSoup
 import requests
 
-def scrap_magic():
-    website = 'https://www.magicsur.cl/66-digimon-card-game-chile'
+def getSoup(website):
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
     result = requests.get(website, headers=headers)
     content = result.text
 
-    soup = BeautifulSoup(content, 'lxml')
+    return BeautifulSoup(content, 'lxml')
+
+
+def scrap_magic():
+    soup = getSoup('https://www.magicsur.cl/66-digimon-card-game-chile')
     box = soup.find('div', class_='products row products-grid')
     products_list = []
 
