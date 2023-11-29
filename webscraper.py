@@ -16,9 +16,11 @@ if box:
         current_product = product.find('h2', class_='h3 product-title')
         link_product = current_product.find('a')['href']
         name_product = current_product.find('a').text.strip()
+        price_product = product.find('span', class_='product-price').text.strip()
         currentProduct = {
             'name' : name_product,
-            'link' : link_product
+            'link' : link_product,
+            'price' : price_product
         }
 
         products_list.append(currentProduct)
