@@ -1,4 +1,6 @@
-from webscraper import scrap_magic
+from webscraper import scrap_magic, scrap_ThirdImpact
 
-scraped_products = scrap_magic()
-print(scraped_products)
+scraped_productsMagicSur = scrap_magic()
+scraped_productsThirdImpact = scrap_ThirdImpact()
+
+print(scraped_productsThirdImpact)

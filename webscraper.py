@@ -31,5 +31,30 @@ def scrap_magic():
 
             products_list.append(currentProduct)
 
-    return products_list
-        
+    return products_list  
+
+def scrap_ThirdImpact():
+    soup = getSoup('https://thirdimpact.cl/categoria-producto/juegos-de-cartas/digimon-card-game/')
+    box = soup.find('div', class_='products row row-small large-columns-3 medium-columns-3 small-columns-2')
+    common_class = 'product-small'
+    productos_set = set()
+
+    if box:
+        products = box.find_all(class_=lambda x: x and common_class in x.split())
+    
+        for product in products:
+            current_product = product.find('p', class_='name product-title woocommerce-loop-product__title')
+            link_product = current_product.find('a')['href']
+            name_product = current_product.find('a').text.strip()
+            price_product = product.find('span', class_='woocommerce-Price-amount amount').text.strip()
+
+            currentProduct = {
+                'name' : name_product,
+                'link' : link_product,
+                'price' : price_product
+            }
+
+            productos_set.add(tuple(currentProduct.items()))
+
+    products_list = [dict(item) for item in productos_set]
+    return products_list  
