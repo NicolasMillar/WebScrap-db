@@ -57,4 +57,30 @@ def scrap_ThirdImpact():
             productos_set.add(tuple(currentProduct.items()))
 
     products_list = [dict(item) for item in productos_set]
-    return products_list  
+    return products_list
+
+
+def scrap_magicChile():
+    soup = getSoup('https://magic-chile.cl/tcg/digimon')
+    box = soup.find('div', class_='row mb-md-5 mb-4 mx-md-n2 mx-n3')
+    products_list = []
+
+    if box:
+        products = box.find_all('div', class_='product-block text-center mb-md-3 mb-2 p-md-3 p-2 rounded trsn')
+
+        for product in products:
+            current_product = product.find('div', class_='brand-name small trsn')
+            link_product = 'https://magic-chile.cl'
+            link_product += current_product.find('a')['href']
+            name_product = current_product.find('a').text.strip()
+            price_product = product.find('span', class_='product-block-list').text.strip()
+
+            currentProduct = {
+                'name' : name_product,
+                'link' : link_product,
+                'price' : price_product
+            }
+            
+            products_list.append(currentProduct)
+        
+    return products_list
