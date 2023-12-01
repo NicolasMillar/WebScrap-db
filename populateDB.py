@@ -1,22 +1,22 @@
+import os
+from dotenv import load_dotenv
 import psycopg2
 from webscraper import scrap_magic, scrap_ThirdImpact, scrap_magicChile
 
-dbname = 'wgezdikj'
-user = 'wgezdikj'
-password = 'Pp96GdIcpkrJNk2Dxp7B5eQmhrNkgTCH'
-host = 'bubble.db.elephantsql.com'
-port = '5432'
+load_dotenv()
 
 try:
     connection = psycopg2.connect(
-        dbname=dbname,
-        user=user,
-        password=password,
-        host=host,
-        port=port
+        dbname=os.getenv('db_name'),
+        user=os.getenv('db_user'),
+        password=os.getenv('db_password'),
+        host=os.getenv('db_host'),
+        port=os.getenv('db_port', 5432)
     )
 
-    print("Conexión exitosa!")
+    scraped_productsMagicSur = scrap_magic()
+    scraped_productsThirdImpact = scrap_ThirdImpact()
+    scraped_productsmagicChile = scrap_magicChile()
 
 
 except Exception as e:
@@ -27,6 +27,3 @@ finally:
         connection.close()
         print("Conexión cerrada.")
 
-#scraped_productsMagicSur = scrap_magic()
-#scraped_productsThirdImpact = scrap_ThirdImpact()
-#scraped_productsmagicChile = scrap_magicChile()
