@@ -1,17 +1,18 @@
 from bs4 import BeautifulSoup
 import requests
 
-def getSoup(website):
+def getBox(website, search):
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
     result = requests.get(website, headers=headers)
     content = result.text
+    soup = BeautifulSoup(content, 'lxml')
+    box = soup.find('div', class_=search)
 
-    return BeautifulSoup(content, 'lxml')
+    return box
 
 
 def scrap_magic():
-    soup = getSoup('https://www.magicsur.cl/66-digimon-card-game-chile')
-    box = soup.find('div', class_='products row products-grid')
+    box = getBox('https://www.magicsur.cl/66-digimon-card-game-chile', 'products row products-grid')
     products_list = []
 
     if box:
@@ -34,8 +35,7 @@ def scrap_magic():
     return products_list  
 
 def scrap_ThirdImpact():
-    soup = getSoup('https://thirdimpact.cl/categoria-producto/juegos-de-cartas/digimon-card-game/')
-    box = soup.find('div', class_='products row row-small large-columns-3 medium-columns-3 small-columns-2')
+    box = getBox('https://thirdimpact.cl/categoria-producto/juegos-de-cartas/digimon-card-game/', 'products row row-small large-columns-3 medium-columns-3 small-columns-2')
     common_class = 'product-small'
     productos_set = set()
 
@@ -61,8 +61,7 @@ def scrap_ThirdImpact():
 
 
 def scrap_magicChile():
-    soup = getSoup('https://magic-chile.cl/tcg/digimon')
-    box = soup.find('div', class_='row mb-md-5 mb-4 mx-md-n2 mx-n3')
+    box = getBox('https://magic-chile.cl/tcg/digimon', 'row mb-md-5 mb-4 mx-md-n2 mx-n3')
     products_list = []
 
     if box:
