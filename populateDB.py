@@ -16,7 +16,9 @@ def calculate_similarity(product_name, products):
 
     return max_similarity, most_similar_product_id
 
+
 load_dotenv()
+
 
 try:
     connection = psycopg2.connect(
@@ -34,13 +36,16 @@ try:
     scraped_productsMagicSur = scrap_magic()
 
     for product in scraped_productsMagicSur:
+        threshold = 0.7
         max_similarity, most_similar_id = calculate_similarity(product['name'], products)
 
+        if max_similarity >= threshold:
+            cursor.execute("INSERT INTO productData (idProduct, idStore, productPrice) VALUES (%s, %s, %s)", (most_similar_id, 0, product['price']))
+            connection.commit()
         print(f"El producto '{product['name']}' tiene una similitud del {max_similarity * 100}% con el producto ID {most_similar_id}")
 
    
     """
-    
     scraped_productsThirdImpact = scrap_ThirdImpact()
     scraped_productsmagicChile = scrap_magicChile()
     """
