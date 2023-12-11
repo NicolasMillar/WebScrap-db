@@ -1,7 +1,6 @@
-import os
-from dotenv import load_dotenv
-import psycopg2
-from webscraper import scrap_magic, scrap_ThirdImpact, scrap_magicChile
+import os from dotenv import load_dotenv
+import psycopg2 from webscraper import scrap_magic, scrap_ThirdImpact, scrap_magicChile
+import Levenshtein
 
 load_dotenv()
 
@@ -16,13 +15,19 @@ try:
 
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM product")
-    product = cursor.fetchall()
+    products = cursor.fetchall()
 
-    print(product)
+    scraped_productsMagicSur = scrap_magic()
 
-    """ scraped_productsMagicSur = scrap_magic()
+    for product in scraped_productsMagicSur:
+        print(product['name'])
+
+   
+    """
+    
     scraped_productsThirdImpact = scrap_ThirdImpact()
-    scraped_productsmagicChile = scrap_magicChile()"""
+    scraped_productsmagicChile = scrap_magicChile()
+    """
 
 
 except Exception as e:
