@@ -14,15 +14,24 @@ try:
         port=os.getenv('db_port', 5432)
     )
 
-    scraped_productsMagicSur = scrap_magic()
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM product")
+    product = cursor.fetchall()
+
+    print(product)
+
+    """ scraped_productsMagicSur = scrap_magic()
     scraped_productsThirdImpact = scrap_ThirdImpact()
-    scraped_productsmagicChile = scrap_magicChile()
+    scraped_productsmagicChile = scrap_magicChile()"""
 
 
 except Exception as e:
     print(f"Error de conexión: {e}")
 
 finally:
+    if cursor:
+        cursor.close()
+
     if connection:
         connection.close()
         print("Conexión cerrada.")

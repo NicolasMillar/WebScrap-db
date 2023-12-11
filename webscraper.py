@@ -10,7 +10,6 @@ def getBox(website, search):
 
     return box
 
-
 def scrap_magic():
     box = getBox('https://www.magicsur.cl/66-digimon-card-game-chile', 'products row products-grid')
     products_list = []
