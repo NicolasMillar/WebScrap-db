@@ -1,6 +1,20 @@
-import os from dotenv import load_dotenv
-import psycopg2 from webscraper import scrap_magic, scrap_ThirdImpact, scrap_magicChile
+import os 
+from dotenv import load_dotenv
+import psycopg2 
+from webscraper import scrap_magic, scrap_ThirdImpact, scrap_magicChile
 import Levenshtein
+
+def calculate_similarity(product_name, products):
+    max_similarity = 0.0
+    most_similar_product_id = None
+
+    for product_id, db_product_name in products:
+        similarity = Levenshtein.ratio(product_name.lower(), db_product_name.lower())
+        if similarity > max_similarity:
+            max_similarity = similarity
+            most_similar_product_id = product_id
+
+    return max_similarity, most_similar_product_id
 
 load_dotenv()
 
@@ -14,13 +28,15 @@ try:
     )
 
     cursor = connection.cursor()
-    cursor.execute("SELECT * FROM product")
+    cursor.execute("SELECT id, productName FROM product")
     products = cursor.fetchall()
 
     scraped_productsMagicSur = scrap_magic()
 
     for product in scraped_productsMagicSur:
-        print(product['name'])
+        max_similarity, most_similar_id = calculate_similarity(product['name'], products)
+
+        print(f"El producto '{product['name']}' tiene una similitud del {max_similarity * 100}% con el producto ID {most_similar_id}")
 
    
     """
