@@ -21,9 +21,9 @@ def insertData(products, productsDb, idStore):
         threshold = 0.7
         max_similarity, most_similar_id = calculate_similarity(product['name'], productsDb)
 
-        if max_similarity >= threshold:
+        """ if max_similarity >= threshold:
             cursor.execute("INSERT INTO productData (idProduct, idStore, productPrice) VALUES (%s, %s, %s)", (most_similar_id, idStore, product['price']))
-            connection.commit()
+            connection.commit() """
         print(f"El producto '{product['name']}' tiene una similitud del {max_similarity * 100}% con el producto ID {most_similar_id}")
 
 load_dotenv()
@@ -47,8 +47,8 @@ try:
     scraped_productsmagicChile = scrap_magicChile()
 
     insertData(scraped_productsMagicSur, products, 0)
-    insertData(scrap_ThirdImpact, products, 1)
-    insertData(scrap_magicChile, products, 2)
+    insertData(scraped_productsThirdImpact, products, 1)
+    insertData(scraped_productsmagicChile, products, 2)
 
 except Exception as e:
     print(f"Error de conexión: {e}")

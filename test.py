@@ -18,7 +18,10 @@ if box:
         link_product = 'https://magic-chile.cl'
         link_product += current_product.find('a')['href']
         name_product = current_product.find('a').text.strip()
-        price_product = product.find('span', class_='product-block-list').text.strip()
+        try:
+            price_product = product.find('span', class_='product-block-list').text.strip()
+        except AttributeError:
+            price_product = product.find('span', class_='product-block-normal').text.strip()
 
         currentProduct = {
             'name' : name_product,
